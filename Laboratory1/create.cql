@@ -28,3 +28,7 @@ CREATE TABLE IF NOT EXISTS labwork1."User_Vacancy_Skill_Criterion" (
  criterion_name text,
  PRIMARY KEY ((user_email), skill_name, vacancy_company, criterion_name)
 );
+
+CREATE INDEX s_name on labwork1."User_Vacancy_Skill_Criterion"(skill_name);
+CREATE INDEX u_name on labwork1."User_Vacancy_Skill_Criterion"(user_name);
+CREATE INDEX v_selary on labwork1."User_Vacancy_Skill_Criterion"(vacancy_salary);

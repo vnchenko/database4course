@@ -96,7 +96,6 @@ INSERT INTO labwork1."User_Vacancy_Skill_Criterion" (
 
 SELECT * FROM labwork1."User_Vacancy_Skill_Criterion";
 
-/////////////////////////////////
 
 UPDATE labwork1."User_Vacancy_Skill_Criterion"
 SET user_name = { first_name: 'Ivan', last_name: 'Vovk' }
@@ -124,17 +123,6 @@ WHERE
  
 SELECT * FROM labwork1."User_Vacancy_Skill_Criterion";
 
-////////////////////////////////
-
-DROP INDEX IF EXISTS s_name;
-CREATE INDEX s_name on labwork1."User_Vacancy_Skill_Criterion"(skill_name);
-
-DROP INDEX IF EXISTS u_name;
-CREATE INDEX u_name on labwork1."User_Vacancy_Skill_Criterion"(user_name);
-
-DROP INDEX IF EXISTS v_selary;
-CREATE INDEX v_selary on labwork1."User_Vacancy_Skill_Criterion"(vacancy_salary);
-
 SELECT user_name
 FROM labwork1."User_Vacancy_Skill_Criterion"
 WHERE skill_name = 'frontend';
@@ -147,7 +135,6 @@ SELECT user_email
 FROM labwork1."User_Vacancy_Skill_Criterion"
 WHERE vacancy_salary = 2000;
 
-////////////////////////////////
 
 DELETE user_location
 FROM labwork1."User_Vacancy_Skill_Criterion"
