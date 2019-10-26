@@ -1,0 +1,101 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<!--https://www.codeply.com/go/nhbdi2FkJm-->
+
+
+<div class="col-md-6 mx-auto">
+
+    <!-- form card login -->
+    <div class="card rounded-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">{{form_name}}</h3>
+        </div>
+        <div class="card-body">
+
+            <form class="form" method="POST">
+                {{ form.hidden_tag() }}
+
+                                
+            <div class="form-group">
+                {{ form.vacancy_name.label }}
+                {{ form.vacancy_name(class_="form-control") }}
+
+                {% if form.vacancy_name.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.vacancy_name.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+
+            <div class="form-group">
+                {{ form.vacancy_company.label }}
+                {{ form.vacancy_company(class_="form-control") }}
+
+                {% if form.vacancy_company.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.vacancy_company.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+            <div class="form-group">
+                {{ form.vacancy_location.label }}
+                {{ form.vacancy_location(class_="form-control") }}
+
+                {% if form.vacancy_location.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.vacancy_location.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+            <div class="form-group">
+                {{ form.vacancy_employment.label }}
+                {{ form.vacancy_employment(class_="form-control") }}
+
+                {% if form.vacancy_employment.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.vacancy_employment.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+            <div class="form-group">
+                {{ form.vacancy_salary.label }}
+                {{ form.vacancy_salary(class_="form-control") }}
+
+
+                {% if form.vacancy_salary.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.vacancy_salary.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+                {{ form.submit(class_="btn btn-success") }}
+            </form>
+        </div>
+        <!--/card-block-->
+    </div>
+    <!-- /form card login -->
+
+</div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+ <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">user_email</th>
+                <th scope="col">skill_name</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for skill in skills %}
+            <tr >
+                <td> {{skill.user_email}} </td>
+                <td> {{skill.skill_name}} </td>
+                <td>
+                    <a href="/edit_skill/{{skill.user_email}}/{{skill.skill_name}}" type="button" class="btn btn-warning">Edit</a>
+                    <a href="/delete_skill/{{skill.user_email}}/{{skill.skill_name}}" type="button" class="btn btn-warning">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ </div>
+
+
+{% endblock %}

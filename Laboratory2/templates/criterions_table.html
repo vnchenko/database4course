@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+ <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">vacancy_id</th>
+                <th scope="col">criterion_name</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for criterion in criterions %}
+            <tr >
+                <td> {{criterion.vacancy_id}} </td>
+                <td> {{criterion.criterion_name}} </td>
+                <td>
+                    <a href="/criterion_edit/{{criterion.vacancy_id}}/{{criterion.criterion_name}}" type="button" class="btn btn-warning">Edit</a>
+                    <a href="/delete_criterion/{{criterion.vacancy_id}}/{{criterion.criterion_name}}" type="button" class="btn btn-warning">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ </div>
+
+{% endblock %}

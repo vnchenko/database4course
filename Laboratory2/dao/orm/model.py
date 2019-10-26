@@ -18,14 +18,13 @@ class OrmUser(db.Model):
     user_employment = db.Column(db.String(15), nullable=False)
 
     user_skills = db.relationship('OrmSkill')
-    user_vacancies = db.relationship('OrmVacancy')
+    vacancy_id_fk = db.relationship('OrmVacancy', secondary='user_has_vacancy')
 
 
-class OrmSkill(db.Model):
-    __tablename__ = 'orm_skill'
-
-    skill_name = db.Column(db.String(20), primary_key=True)
-    user_email = db.Column(db.String(20), ForeignKey('orm_user.user_email'))
+class UserHasVacancy(db.Model):
+    __tablename__ = 'user_has_vacancy'
+    user_email = db.Column(db.String(20), db.ForeignKey('orm_user.user_email'), primary_key=True)
+    vacancy_id = db.Column(db.Integer, db.ForeignKey('orm_vacancy.vacancy_id'), primary_key=True)
 
 
 class OrmVacancy(db.Model):
@@ -38,8 +37,15 @@ class OrmVacancy(db.Model):
     vacancy_employment = db.Column(db.String(15), nullable=False)
     vacancy_salary = db.Column(db.Integer, nullable=False)
 
-    user_email = db.Column(db.String(20), ForeignKey('orm_user.user_email'))
+    user_email_fk = db.relationship('OrmUser', secondary='user_has_vacancy')
     vacancy_criterions = db.relationship('OrmCriterion')
+
+
+class OrmSkill(db.Model):
+    __tablename__ = 'orm_skill'
+
+    skill_name = db.Column(db.String(20), primary_key=True)
+    user_email = db.Column(db.String(20), ForeignKey('orm_user.user_email'))
 
 
 class OrmCriterion(db.Model):

@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+ <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">vacancy_id</th>
+                <th scope="col">vacancy_company</th>
+                <th scope="col">vacancy_name</th>
+                <th scope="col">vacancy_location</th>
+                <th scope="col">vacancy_employment</th>
+                <th scope="col">vacancy_salary</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vacancy in vacancies %}
+            <tr >
+                <td> {{vacancy.vacancy_id}} </td>
+                <td> {{vacancy.vacancy_company}} </td>
+                <td> {{vacancy.vacancy_name}} </td>
+                <td> {{vacancy.vacancy_location}} </td>
+                <td> {{vacancy.vacancy_employment}} </td>
+                <td> {{vacancy.vacancy_salary}} </td>
+                <td>
+                    <a href="/vacancy_edit/{{vacancy.vacancy_id}}" type="button" class="btn btn-warning">Edit</a>
+                    <a href="/delete_vacancy/{{vacancy.vacancy_id}}" type="button" class="btn btn-warning">Delete</a>
+                    <a href="/new_criterion/{{vacancy.vacancy_id}}" type="button" class="btn btn-warning">add criterion</a>
+                </td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td> <a href="/create_vacancy" type="button" class="btn btn-warning">New Vacancy</a> </td>
+            </tr>
+        </tbody>
+    </table>
+ </div>
+
+{% endblock %}

@@ -2,6 +2,7 @@ from dao.orm.model import *
 
 db.create_all()
 
+db.session.query(UserHasVacancy).delete()
 db.session.query(OrmCriterion).delete()
 db.session.query(OrmSkill).delete()
 db.session.query(OrmVacancy).delete()
@@ -85,17 +86,11 @@ vacancy_3 = OrmVacancy(
     vacancy_salary=1000
 )
 
-Bob.user_vacancies.append(vacancy_1)
-Bob.user_vacancies.append(vacancy_2)
-Bob.user_vacancies.append(vacancy_3)
+Bob.vacancy_id_fk.append(vacancy_1)
 
-Boba.user_vacancies.append(vacancy_1)
-Boba.user_vacancies.append(vacancy_2)
-Boba.user_vacancies.append(vacancy_3)
+Boba.vacancy_id_fk.append(vacancy_2)
 
-Boban.user_vacancies.append(vacancy_1)
-Boban.user_vacancies.append(vacancy_2)
-Boban.user_vacancies.append(vacancy_3)
+Boban.vacancy_id_fk.append(vacancy_3)
 
 frontend_criterion = OrmCriterion(
     criterion_name='frontend'
