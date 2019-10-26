@@ -8,6 +8,10 @@ from forms.criterion_edit import CriterionEdit
 from dao.orm.populate import *
 from flask import Flask
 import uuid
+import json
+import plotly
+from sqlalchemy.sql import func
+import plotly.graph_objs as go
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123123@localhost/postgres'
@@ -256,6 +260,44 @@ def delete_skill(email, skill):
 def page_not_found():
     return render_template('404.html'), 404
 
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    query1 = (
+        db.session.query(
+            OrmUser.user_name,
+            func.count(OrmSkill.skill_name).label('skill_name')
+        ).join(OrmSkill, OrmUser.user_email == OrmSkill.user_email).
+            group_by(OrmUser.user_name)
+    ).all()
+
+    query2 = (
+        db.session.query(
+            OrmVacancy.vacancy_name,
+            func.count(OrmCriterion.criterion_name).label('criterion_name')
+        ).join(OrmCriterion, OrmCriterion.vacancy_id == OrmVacancy.vacancy_id).
+            group_by(OrmVacancy.vacancy_name)
+    ).all()
+
+    user_name, skill_count = zip(*query1)
+    bar = go.Bar(
+        x=user_name,
+        y=skill_count
+    )
+
+    vacancy_name, criterion_count = zip(*query2)
+    pie = go.Pie(
+        labels=vacancy_name,
+        values=criterion_count
+    )
+
+    data = {
+        "bar": [bar],
+        "pie": [pie]
+    }
+    graphs_json = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('dashboard.html', graphsJSON=graphs_json)
 
 if __name__ == "__main__":
     app.run()

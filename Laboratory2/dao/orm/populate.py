@@ -39,6 +39,10 @@ frontend_skill = OrmSkill(
     skill_name='frontend'
 )
 
+firefighter_skill = OrmSkill(
+    skill_name='firefighter_skill'
+)
+
 backend_skill = OrmSkill(
     skill_name='backend'
 )
@@ -50,7 +54,7 @@ designer_skill = OrmSkill(
 # create relations User - Skills
 
 Bob.user_skills.append(frontend_skill)
-# Bob.user_skills.append(backend)
+Bob.user_skills.append(firefighter_skill)
 # Bob.user_skills.append(designer)
 
 Boba.user_skills.append(backend_skill)
