@@ -1,22 +1,212 @@
-from flask import render_template, request, redirect
+from flask import Flask, render_template, request, redirect
 from forms.user_form import UserForm
 from forms.vacancy_form import VacancyForm
 from forms.user_edit_form import UserFormEdit
 from forms.skill_form import Skill
 from forms.skill_edit_form import SkillEdit
 from forms.criterion_edit import CriterionEdit
-from dao.orm.populate import *
-from flask import Flask
 import uuid
 import json
 import plotly
 from sqlalchemy.sql import func
 import plotly.graph_objs as go
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123123@localhost/postgres'
+app.secret_key = 'key'
+
+ENV = 'prod'
+
+if ENV == 'dev':
+    app.debug = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123123@localhost/postgres'
+else:
+    app.debug = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://efbqxjbrcsobam:a690b8f821f8e746598f7dd92f7602e29ffc85c14485e16822895e277d3f99f9@ec2-174-129-10-235.compute-1.amazonaws.com:5432/d4md2h2t2e3mk5'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
-app.secret_key = 'development key'
+
+
+class OrmSkill(db.Model):
+    __tablename__ = 'orm_skill'
+
+    skill_name = db.Column(db.String(20), primary_key=True)
+    user_email = db.Column(db.String(20), db.ForeignKey('orm_user.user_email'))
+
+
+class UserHasVacancy(db.Model):
+    __tablename__ = 'user_has_vacancy'
+    user_email = db.Column(db.String(20), db.ForeignKey('orm_user.user_email'), primary_key=True)
+    vacancy_id = db.Column(db.Integer, db.ForeignKey('orm_vacancy.vacancy_id'), primary_key=True)
+
+
+class OrmCriterion(db.Model):
+    __tablename__ = 'orm_criterion'
+
+    criterion_name = db.Column(db.String(20), primary_key=True)
+
+    vacancy_id = db.Column(db.Integer, db.ForeignKey('orm_vacancy.vacancy_id'))
+
+
+class OrmVacancy(db.Model):
+    __tablename__ = 'orm_vacancy'
+
+    vacancy_id = db.Column(db.Integer, primary_key=True)
+    vacancy_company = db.Column(db.String(20), nullable=False)
+    vacancy_name = db.Column(db.String(30), nullable=False)
+    vacancy_location = db.Column(db.String(30), nullable=False)
+    vacancy_employment = db.Column(db.String(15), nullable=False)
+    vacancy_salary = db.Column(db.Integer, nullable=False)
+
+    user_email_fk = db.relationship('OrmUser', secondary='user_has_vacancy')
+    vacancy_criterions = db.relationship('OrmCriterion')
+
+
+class OrmUser(db.Model):
+    __tablename__ = 'orm_user'
+
+    user_email = db.Column(db.String(20), primary_key=True)
+    user_name = db.Column(db.String(20), nullable=False)
+    user_phone = db.Column(db.String(15), nullable=False)
+    user_birthday = db.Column(db.Date, nullable=False)
+    user_location = db.Column(db.String(30), nullable=False)
+    user_employment = db.Column(db.String(15), nullable=False)
+
+    user_skills = db.relationship('OrmSkill')
+    vacancy_id_fk = db.relationship('OrmVacancy', secondary='user_has_vacancy')
+
+#
+# db.create_all()
+#
+# db.session.query(UserHasVacancy).delete()
+# db.session.query(OrmCriterion).delete()
+# db.session.query(OrmSkill).delete()
+# db.session.query(OrmVacancy).delete()
+# db.session.query(OrmUser).delete()
+#
+# # создане объектов
+# Bob = OrmUser(
+#     user_email='bob@gmail.com',
+#     user_name="Bob",
+#     user_phone="380665583447",
+#     user_birthday='10-10-2000',
+#     user_location="Kyiv",
+#     user_employment="full-time"
+# )
+#
+# Boba = OrmUser(
+#     user_email='boba@gmail.com',
+#     user_name="Boba",
+#     user_phone="380665583448",
+#     user_birthday='10-10-2000',
+#     user_location='Borispol',
+#     user_employment='part-time'
+# )
+# Boban = OrmUser(
+#     user_email='boban@gmail.com',
+#     user_name="Boban",
+#     user_phone="380665583449",
+#     user_birthday='10-10-2000',
+#     user_location='Moskow',
+#     user_employment='full-time'
+# )
+#
+# frontend_skill = OrmSkill(
+#     skill_name='frontend'
+# )
+#
+# firefighter_skill = OrmSkill(
+#     skill_name='firefighter_skill'
+# )
+#
+# backend_skill = OrmSkill(
+#     skill_name='backend'
+# )
+#
+# designer_skill = OrmSkill(
+#     skill_name='design'
+# )
+#
+# # create relations User - Skills
+#
+# Bob.user_skills.append(frontend_skill)
+# Bob.user_skills.append(firefighter_skill)
+# # Bob.user_skills.append(designer)
+#
+# Boba.user_skills.append(backend_skill)
+# # Boba.user_skills.append(backend)
+# # Boba.user_skills.append(designer)
+#
+# Boban.user_skills.append(designer_skill)
+# # Boban.user_skills.append(backend)
+# # Boban.user_skills.append(designer)
+#
+# vacancy_1 = OrmVacancy(
+#     vacancy_id=123,
+#     vacancy_company='convidera',
+#     vacancy_name='convidera frontend',
+#     vacancy_location='Kyiv',
+#     vacancy_employment='full-time',
+#     vacancy_salary=1000
+# )
+# vacancy_2 = OrmVacancy(
+#     vacancy_id=234,
+#     vacancy_company='google',
+#     vacancy_name='google backend',
+#     vacancy_location='Kyiv',
+#     vacancy_employment='full-time',
+#     vacancy_salary=1000
+# )
+# vacancy_3 = OrmVacancy(
+#     vacancy_id=345,
+#     vacancy_company='facebook',
+#     vacancy_name='facebook designer',
+#     vacancy_location='Kyiv',
+#     vacancy_employment='full-time',
+#     vacancy_salary=1000
+# )
+#
+# Bob.vacancy_id_fk.append(vacancy_1)
+#
+# Boba.vacancy_id_fk.append(vacancy_2)
+#
+# Boban.vacancy_id_fk.append(vacancy_3)
+#
+# frontend_criterion = OrmCriterion(
+#     criterion_name='frontend'
+# )
+#
+# backend_criterion = OrmCriterion(
+#     criterion_name='backend'
+# )
+#
+# designer_criterion = OrmCriterion(
+#     criterion_name='design'
+# )
+#
+# vacancy_1.vacancy_criterions.append(frontend_criterion)
+# vacancy_2.vacancy_criterions.append(backend_criterion)
+# vacancy_3.vacancy_criterions.append(designer_criterion)
+#
+# # insert into database
+# db.session.add_all([
+#     Bob,
+#     Boba,
+#     Boban,
+#     vacancy_1,
+#     vacancy_2,
+#     vacancy_3,
+#     frontend_skill,
+#     backend_skill,
+#     designer_skill,
+#     firefighter_skill,
+#     frontend_criterion,
+#     backend_criterion,
+#     designer_criterion
+# ])
+# # # commit
+# db.session.commit()
 
 
 @app.route('/')
@@ -298,6 +488,7 @@ def dashboard():
     graphs_json = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('dashboard.html', graphsJSON=graphs_json)
+
 
 if __name__ == "__main__":
     app.run()
