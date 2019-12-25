@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+ <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">vacancy_company</th>
+                <th scope="col">vacancy_name</th>
+                <th scope="col">vacancy_location</th>
+                <th scope="col">vacancy_employment</th>
+                <th scope="col">vacancy_salary</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vacancy in vacancies %}
+            <tr >
+                <td> {{vacancy.vacancy_company}} </td>
+                <td> {{vacancy.vacancy_name}} </td>
+                <td> {{vacancy.vacancy_location}} </td>
+                <td> {{vacancy.vacancy_employment}} </td>
+                <td> {{vacancy.vacancy_salary}} </td>
+
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+ </div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<p ><font color="#000000">Для кількості проектів = {{ test_data }}</font></p>
+    <p ><font color="#000000">Прогнозується наступну кількість файлів = {{ row }}</font></p>
+    <p ><font color="#000000">Коефіцієнти регресії  - {{ coef }}</font></p>
+    <p ><font color="#000000">Вільний член регресії - {{ coef1 }}</font></p>
+
+    <h1>Regretion ...</h1>
+    <div id="scatter" class="bar">
+
+    </div>
+
+
+    <script src="{{ url_for('static', filename='js/d3.v5.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+
+
+    <script type="text/javascript">
+        var graphs = {{graphsJSON | safe}};
+        Plotly.plot("scatter", graphs, {});
+    </script>
+
+
+{% endblock %}

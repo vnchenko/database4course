@@ -26,9 +26,9 @@
                 <td> {{user.user_location}} </td>
                 <td> {{user.user_employment}} </td>
                 <td>
-                    <a href="/user_edit/{{user.user_email}}" type="button" class="btn btn-warning" data-person_login="{{user.user_edit}}">Edit</a>
-                    <a href="/delete_user/{{user.user_email}}" type="button" class="btn btn-warning" data-person_login="{{user.user_edit}}">Delete</a>
-                    <a href="/new_skill/{{user.user_email}}" type="button" class="btn btn-warning" data-person_login="{{user.user_edit}}">add skill</a>
+                    <a href="/user_edit/{{user.user_email}}" type="button" class="btn btn-warning">Edit</a>
+                    <a href="/delete_user/{{user.user_email}}" type="button" class="btn btn-warning">Delete</a>
+                    <a href="/new_skill/{{user.user_email}}" type="button" class="btn btn-warning">add skill</a>
                 </td>
             </tr>
         {% endfor %}

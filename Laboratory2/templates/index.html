@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Workshop</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workshop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -12,26 +12,42 @@
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
-  <div class="navbar-header">
-        <a class="navbar-brand" target="_blank" href="https://github.com/vnchenko/database4course">Ivan Vovchenko</a>  <!-- Посилання на репозиторій з кодом !-->
-  </div>
+    <div class="navbar-header">
+        <a class="navbar-brand" target="_blank" href="https://github.com/vnchenko/database4course">Ivan Vovchenko</a>
+        <!-- Посилання на репозиторій з кодом !-->
+    </div>
 
 
+    <ul class="navbar-nav" style="width: 100%">
+        {% if session['role'] == 'admin' %}
+            <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="/skills">Skills</a></li>
+            <li class="nav-item"><a class="nav-link" href="/vacancies">Vacancies</a></li>
+            <li class="nav-item"><a class="nav-link" href="/criterions">Criterions</a></li>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/regretion">Correlation</a></li>
+            <li class="nav-item"><a class="nav-link" href="/cluster_analysis">Cluster analysis</a></li>
+            <li class="nav-item"><a class="nav-link" href="/clasification">Clu</a></li>
 
-
-  <ul class="navbar-nav">
-    <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
-    <li class="nav-item"><a class="nav-link" href="/skills">Skills</a></li>
-    <li class="nav-item"><a class="nav-link" href="/vacancies">Vacancies</a></li>
-    <li class="nav-item"><a class="nav-link" href="/criterions">Criterions</a></li>
-    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-  </ul>
+        {% endif %}
+        {% if session['role'] != 'unlogged' %}
+            <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+        {% endif %}
+        {% if session['user_email'] %}
+            <li class="align-self-end" style="margin-left: auto">
+                <a class="nav-link" href="/user/{{ session['user_email'] }}">{{ session['user_email'] }}</a>
+            </li>
+            <li class="align-self-end">
+                <a class="nav-link" href="/logout">logout</a>
+            </li>
+        {% endif %}
+    </ul>
 
 </nav>
 
 <div class="container">
 
-  {% block content %}<h1>Welcome page</h1>{% endblock %}
+    {% block content %}<h1>Welcome page</h1>{% endblock %}
 
 </div>
 

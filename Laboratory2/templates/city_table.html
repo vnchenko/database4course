@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+ <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">city_name</th>
+                <th scope="col">city_population</th>
+                <th scope="col">city_coord</th>
+                <th scope="col">city_year</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for city in cities %}
+            <tr >
+                <td> {{city.city_name}} </td>
+                <td> {{city.city_population}} </td>
+                <td> {{city.city_coord}} </td>
+                <td> {{city.city_year}} </td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td> <a href="/create_city" type="button" class="btn btn-warning">New city</a> </td>
+            </tr>
+        </tbody>
+    </table>
+ </div>
+
+{% endblock %}

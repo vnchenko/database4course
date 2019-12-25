@@ -1,30 +1,42 @@
 # from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy import ForeignKey
 # from flask import Flask
+#
 # app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123123@localhost/postgres'
+# app.secret_key = 'key'
+#
+# ENV = 'dev'
+#
+# if ENV == 'dev':
+#     app.debug = True
+#     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123123@localhost/postgres'
+# else:
+#     app.debug = False
+#     app.config[
+#         'SQLALCHEMY_DATABASE_URI'] = 'postgres://efbqxjbrcsobam:a690b8f821f8e746598f7dd92f7602e29ffc85c14485e16822895e277d3f99f9@ec2-174-129-10-235.compute-1.amazonaws.com:5432/d4md2h2t2e3mk5'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#
 # db = SQLAlchemy(app)
-# app.secret_key = 'development key'
 #
 #
-# class OrmUser(db.Model):
-#     __tablename__ = 'orm_user'
+# class OrmSkill(db.Model):
+#     __tablename__ = 'orm_skill'
 #
-#     user_email = db.Column(db.String(20), primary_key=True)
-#     user_name = db.Column(db.String(20), nullable=False)
-#     user_phone = db.Column(db.String(15), nullable=False)
-#     user_birthday = db.Column(db.Date, nullable=False)
-#     user_location = db.Column(db.String(30), nullable=False)
-#     user_employment = db.Column(db.String(15), nullable=False)
-#
-#     user_skills = db.relationship('OrmSkill')
-#     vacancy_id_fk = db.relationship('OrmVacancy', secondary='user_has_vacancy')
+#     skill_name = db.Column(db.String(20), primary_key=True)
+#     user_email = db.Column(db.String(20), db.ForeignKey('orm_user.user_email'))
 #
 #
 # class UserHasVacancy(db.Model):
 #     __tablename__ = 'user_has_vacancy'
 #     user_email = db.Column(db.String(20), db.ForeignKey('orm_user.user_email'), primary_key=True)
 #     vacancy_id = db.Column(db.Integer, db.ForeignKey('orm_vacancy.vacancy_id'), primary_key=True)
+#
+#
+# class OrmCriterion(db.Model):
+#     __tablename__ = 'orm_criterion'
+#
+#     criterion_name = db.Column(db.String(20), primary_key=True)
+#
+#     vacancy_id = db.Column(db.Integer, db.ForeignKey('orm_vacancy.vacancy_id'))
 #
 #
 # class OrmVacancy(db.Model):
@@ -41,19 +53,32 @@
 #     vacancy_criterions = db.relationship('OrmCriterion')
 #
 #
-# class OrmSkill(db.Model):
-#     __tablename__ = 'orm_skill'
+# # class UserHasCity(db.Model):
+# #     __tablename__ = 'user_has_city'
+# #     user_email = db.Column(db.String(20), db.ForeignKey('orm_user.user_email'), primary_key=True)
+# #     city_name = db.Column(db.String(20), db.ForeignKey('orm_city.city_name'), primary_key=True)
 #
-#     skill_name = db.Column(db.String(20), primary_key=True)
-#     user_email = db.Column(db.String(20), ForeignKey('orm_user.user_email'))
+#
+# class OrmUser(db.Model):
+#     __tablename__ = 'orm_user'
+#
+#     user_email = db.Column(db.String(20), primary_key=True)
+#     user_name = db.Column(db.String(20), nullable=False)
+#     user_phone = db.Column(db.String(15), nullable=False)
+#     user_birthday = db.Column(db.Date, nullable=False)
+#     user_location = db.Column(db.String(30), nullable=False)
+#     user_employment = db.Column(db.String(15), nullable=False)
+#
+#     user_skills = db.relationship('OrmSkill')
+#     vacancy_id_fk = db.relationship('OrmVacancy', secondary='user_has_vacancy')
+#     # city_name_fk = db.relationship('OrmCity', secondary='user_has_city')
 #
 #
-# class OrmCriterion(db.Model):
-#     __tablename__ = 'orm_criterion'
-#
-#     criterion_name = db.Column(db.String(20), primary_key=True)
-#
-#     vacancy_id = db.Column(db.Integer, ForeignKey('orm_vacancy.vacancy_id'))
-#     # company = db.relationship('OrmSkill', back_populates='orm_criterion')
-#
-#     # OrmVacancy.criterions = db.relationship('OrmCriterion', back_populates='orm_vacancy')
+# # class OrmCity(db.Model):
+# #     __tablename__ = 'orm_city'
+# #
+# #     city_name = db.Column(db.String(20), primary_key=True)
+# #     city_population = db.Column(db.Integer, primary_key=False)
+# #     city_coord = db.Column(db.String(20), nullable=False)
+# #     city_year = db.Column(db.Date, nullable=False)
+# #     user_email_fk = db.relationship('OrmUser', secondary='user_has_city')

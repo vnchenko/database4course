@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+    <div class="table-responsive">
+        <div style="margin-top: 15px;" class="d-flex">
+            <img src="http://via.placeholder.com/150x150" style="margin-right: 15px">
+            <div>
+                <div>
+                    <b>name:</b>
+                    <span>{{ user.user_name }}</span>
+                </div>
+                <div>
+                    <b>email:</b>
+                    <span>{{ user.user_email }}</span>
+                </div>
+                <div>
+                    <b>phone:</b>
+                    <span>{{ user.user_phone }}</span>
+                </div>
+                <div>
+                    <b>location:</b>
+                    <span>{{ user.user_location }}</span>
+                </div>
+                <div>
+                    <b>employment:</b>
+                    <span>{{ user.user_employment }}</span>
+                </div>
+                <a href="/user_edit/{{ user.user_email }}" type="button" class="btn-link alert-link">Edit info</a>
+            </div>
+        </div>
+        <div style="margin-top: 20px">
+            <strong>Skills:</strong>
+            {% for skill in skills %}
+                <ul>
+                    <li>
+                        <span>{{ skill.skill_name }}</span>
+                        <a href="/edit_skill/{{ user.user_email}}/{{ skill.skill_name }}" type="button" class="btn-link">edit</a>
+                    </li>
+                </ul>
+            {% endfor %}
+        <a href="/new_skill/{{user.user_email}}" type="button" class="btn-link">add skill</a>
+        </div>
+    </div>
+
+{% endblock %}

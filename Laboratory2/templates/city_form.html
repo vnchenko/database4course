@@ -1,0 +1,89 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<!--https://www.codeply.com/go/nhbdi2FkJm-->
+
+
+<div class="col-md-6 mx-auto">
+
+    <!-- form card login -->
+    <div class="card rounded-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">{{form_name}}</h3>
+        </div>
+        <div class="card-body">
+
+            <form class="form"  action = "/create_city" method="POST">
+                {{ form.hidden_tag() }}
+
+                                
+            <div class="form-group">
+                {{ form.city_name.label }}
+                {{ form.city_name(class_="form-control") }}
+
+                {% if form.city_name.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.city_name.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+
+            <div class="form-group">
+                {{ form.city_population.label }}
+                {{ form.city_population(class_="form-control") }}
+
+                {% if form.city_population.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.city_population.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+            <div class="form-group">
+                {{ form.city_coord.label }}
+                {{ form.city_coord(class_="form-control") }}
+
+                {% if form.city_coord.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.city_coord.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+            <div class="form-group">
+                {{ form.city_year.label }}
+                {{ form.city_year(class_="form-control") }}
+
+                {% if form.city_year.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.city_year.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
+
+                {{ form.submit(class_="btn btn-success") }}
+            </form>
+        </div>
+        <!--/card-block-->
+    </div>
+    <!-- /form card login -->
+
+</div>
+
+</div>
+
+
+
+
+{% endblock %}
